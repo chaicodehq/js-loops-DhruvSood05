@@ -39,4 +39,73 @@
  */
 export function diwaliLightsPlan(lightStrings, budget) {
   // Your code here
+  if (
+    !Array.isArray(lightStrings) ||
+    budget < 0 ||
+    typeof budget !== "number"
+  ) {
+    return { selected: [], totalLength: 0, totalCost: 0 };
+  }
+
+  let selected = [];
+  let totalCost = 0;
+  let totalLength = 0;
+  let cost = 0;
+  for (const lights of lightStrings) {
+    switch (lights.color.toLowerCase()) {
+      case "golden":
+        totalLength += lights.length;
+        totalCost += 50 * lights.length;
+        lights.cost = 50 * lights.length;
+        selected.push(lights);
+        break;
+      case "multicolor":
+        totalLength += lights.length;
+        totalCost += 40 * lights.length;
+        lights.cost = 40 * lights.length;
+        selected.push(lights);
+        break;
+      case "white":
+        totalLength += lights.length;
+        totalCost += 30 * lights.length;
+        lights.cost = 30 * lights.length;
+        selected.push(lights);
+        break;
+      default:
+        totalLength += lights.length;
+        totalCost += 35 * lights.length;
+        lights.cost = 35 * lights.length;
+        selected.push(lights);
+    }
+  }
+
+  while (totalCost > budget) {
+    const removed = selected.pop();
+    switch (removed.color.toLowerCase()) {
+      case "golden":
+        totalLength -= removed.length;
+        totalCost -= removed.cost;
+
+        break;
+      case "multicolor":
+        totalLength -= removed.length;
+        totalCost -= removed.cost;
+
+        break;
+      case "white":
+        totalLength -= removed.length;
+        totalCost -= removed.cost;
+
+        break;
+      default:
+        totalLength -= removed.length;
+        totalCost -= removed.cost;
+    }
+  }
+
+  return {
+    selected,
+    totalLength,
+    totalCost,
+  };
 }
